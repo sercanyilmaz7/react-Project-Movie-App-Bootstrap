@@ -45,6 +45,7 @@ export const createUser = async (email, password, navigate, displayName) => {
       displayName: displayName,
     });
     navigate("/");
+    toastSuccessNotify("Registered successfully!");
     console.log(userCredential);
   } catch (error) {
     console.log(error);
