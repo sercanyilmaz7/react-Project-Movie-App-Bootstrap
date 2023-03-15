@@ -1,5 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import Pagination from "../components/Pagination";
 
 import { AuthContext } from "../context/AuthContext";
 import MovieCard from "../components/MovieCard";
@@ -18,6 +19,23 @@ const Main = () => {
  
   console.log(currentUser);
   console.log(auth.currentUser)
+
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage, setPostsPerPage] = useState(5);
+
+  const lastPostIndex = currentPage * postsPerPage;
+  const firstPostIndex = lastPostIndex - postsPerPage;
+  console.log(movies);
+  const currentPosts = movies.slice(firstPostIndex, lastPostIndex);
+  console.log(...currentPosts);
+
+
+
+
+
+
+
 
    useEffect(() => {
      getData(API_DATA);
@@ -62,9 +80,15 @@ const Main = () => {
             <span className="sr-only">Loading...</span>
           </div>
         ) : (
-          movies?.map((movie) => <MovieCard key={movie.id} {...movie} />)
+          currentPosts?.map((movie) => <MovieCard key={movie.id} {...movie} />)
         )}
       </div>
+      <Pagination
+        totalPosts={movies.length}
+        postsPerPage={postsPerPage}
+        setCurrentPage={setCurrentPage}
+        currentPage={currentPage}
+      />
     </>
   );
 };
